@@ -1,0 +1,28 @@
+{
+    "app_id":"levor-xygzjzzdpnaa8jt",
+    "avatar_url":"https://d1edrlpyc25xu0.cloudfront.net/kiwari-prod/image/upload/wMWsDZP6ta/1516689726-ic_qiscus_client.png",
+    "candidate_agent":{
+       "avatar_url":null,
+       "created_at":"2021-11-12T01:24:18",
+       "email":"agenwarnet@gmail.com",
+       "force_offline":false,
+       "id":150851,
+       "is_available":true,
+       "is_verified":false,
+       "last_login":null,
+       "name":"agent a",
+       "sdk_email":"sfp8V_agenwarnet@gmail.com",
+       "sdk_key":"4a-a98a-2d18e262",
+       "type":2,
+       "type_as_string":"agent",
+       "updated_at":"2021-11-12T14:29:18"
+    },
+    "email":"user2@mail.com",
+    "extras":"{\"additional_extras\":{\"timezone_offset\":7},\"notes\":null,\"timezone_offset\":null,\"user_properties\":[]}",
+    "is_new_session":true,
+    "is_resolved":false,
+    "latest_service":null,
+    "name":"user_2",
+    "room_id":"57491250",
+    "source":"qiscus"
+ }
