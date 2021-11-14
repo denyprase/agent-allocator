@@ -61,7 +61,6 @@ def get_agent_by_id(agent_ids):
         'Qiscus-Secret-Key': _APP_SECRET,
     }
     response = requests.request("GET", url, headers=headers, params=id_params)
-    print(response.url)
     return response.json()
 
 def is_agent_available(agent_data):
