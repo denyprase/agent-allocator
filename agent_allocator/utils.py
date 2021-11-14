@@ -42,47 +42,44 @@ def is_resolved_event(payload):
         return True
     return False
 
-def get_agent_by_id(agent_id):
+def get_agent_by_id(agent_ids):
     """
-    Get agent data using Multichannel Get Agent endpoint
+    Get agent(s) data using Get Agent by IDs endpoint
 
     Args:
-        agent_id: agent id
+        agent_id: agent id list
     
     Returns:
         dictionary of agent data
     """
-
-    url = '{}/api/v2/admin/agent/{}'.format(BASE_URL, agent_id)
+    url = '{}/api/v1/admin/agents/get_by_ids'.format(BASE_URL)
+    id_params = ['ids[]={}'.format(id) for id in agent_ids]
+    id_params = '&'.join(id_params)
     headers = {
-        'Authorization': _ADMIN_TOKEN,
         'Content-Type': 'application/json',
-        'Qiscus-App-Id': _APP_CODE
+        'Qiscus-App-Id': _APP_CODE,
+        'Qiscus-Secret-Key': _APP_SECRET,
     }
-    response = requests.request("GET", url, headers=headers)
+    response = requests.request("GET", url, headers=headers, params=id_params)
+    print(response.url)
     return response.json()
 
-def is_agent_available(payload):
+def is_agent_available(agent_data):
     """
     Check if an agent is available to be assigned to a room
     by checking if agent's customer count < 2
 
     Args:
-        payload: agent data returned from Get Agent endpoint
+        agent_data: agent data returned from Get Agent by IDs endpoint
     
     Returns:
         True if agent available, False otherwise
     """
-
-    if 'status' in payload and payload['status'] == 200:
-        data = payload.get('data', {})
-        agent = data.get('agent', {})
-        if agent:
-            available = agent.get('is_available', None)
-            count = agent.get('current_customer_count', None)
-            if available is not None and count is not None:
-                if available and count < 2:
-                    return True
+    available = agent_data.get('is_available', None)
+    count = agent_data.get('current_customer_count', None)
+    if available is not None and count is not None:
+        if available and count < 2:
+            return True
     return False
 
 def get_available_agent():
@@ -96,19 +93,14 @@ def get_available_agent():
     hence the hardcoded agent ids.
     
     Returns:
-        dictionary with agent's id data
+        agent data dictionary
     """
     agent_ids = [150850, 150851, 150880]
-    agents_availability = []
-    for id in agent_ids:
-        data = {}
-        data['id'] = id
-        agent = get_agent_by_id(id)
-        available = is_agent_available(agent)
-        if available:
-            agents_availability.append(data)
-    if len(agents_availability) > 0:
-        return agents_availability[0]
+    agents = get_agent_by_id(agent_ids)['data']
+    for agent in agents:
+        free = is_agent_available(agent)
+        if free:
+            return agent
     return None
 
 def assign_agent(room_id, agent_id):
