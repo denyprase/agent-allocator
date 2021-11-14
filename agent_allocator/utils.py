@@ -85,16 +85,11 @@ def get_available_agent():
     """
     Get agent availability using is_agent_available
     for all known agents.
-    This function and is_agent_available function are
-    made because the 'current_customer_count' data
-    from Get All Agent endpoint is not updated
-    immediately for some reason after there is a change,
-    hence the hardcoded agent ids.
     
     Returns:
         agent data dictionary
     """
-    agent_ids = [150850, 150851, 150880]
+    agent_ids = [150851, 150880, 150892]
     agents = get_agent_by_id(agent_ids)['data']
     for agent in agents:
         free = is_agent_available(agent)
